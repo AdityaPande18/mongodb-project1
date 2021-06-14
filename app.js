@@ -21,6 +21,7 @@ app.use((req, res, next) => {
 	next();
 });
 
+// Function to return fail response
 function failError(res){
 	res.status(200).json({
 		status: "Fail",
@@ -28,6 +29,8 @@ function failError(res){
 	});
 }
 
+// Function to return success response
+// Returns top 10 results that were return by mongodb
 function successResponse(documents, cursor, res) {
 	var data = [];
 	let i = 0;
@@ -39,7 +42,6 @@ function successResponse(documents, cursor, res) {
 		i++;
 		documents = cursor.hasNext() ? cursor.next() : null;
 	}
-
 	
 	documents.then(function(result) {
 		res.status(200).json({
@@ -50,11 +52,12 @@ function successResponse(documents, cursor, res) {
 }
 
 
+// find restaurant by name
 app.get('/byname', (req, res, next) => {
 
 	var params = req.body;
 	client.connect( err => {
-
+		
 	  	const collection = client.db("sample_restaurants").collection("restaurants");
 	  	const cursor = collection.find({
 	  										"name": params.name
@@ -81,6 +84,7 @@ app.get('/byname', (req, res, next) => {
 	
 })
 
+// find restaurant by cuisine
 app.get('/bycuisine', (req, res, next) => {
 
 	var params = req.body;
@@ -113,6 +117,7 @@ app.get('/bycuisine', (req, res, next) => {
 	
 })
 
+// find restaurant by borough
 app.get('/byborough', (req, res, next) => {
 
 	var params = req.body;
@@ -145,6 +150,7 @@ app.get('/byborough', (req, res, next) => {
 	
 })
 
+// find restaurant by street
 app.get('/bystreet', (req, res, next) => {
 	
 	var params = req.body;
@@ -177,6 +183,7 @@ app.get('/bystreet', (req, res, next) => {
 	});	
 })
 
+// find restaurant by grades
 app.get('/bygrades', (req, res, next) => {
 	
 	var params = req.body;
@@ -216,6 +223,7 @@ app.get('/bygrades', (req, res, next) => {
 	});	
 })
 
+// find restaurant by location
 app.get('/bylocation', (req, res, next) => {
 	
 	var params = req.body;
